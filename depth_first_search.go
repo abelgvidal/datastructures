@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package datastructures
 
 type Graph struct {
    vertices int
@@ -8,41 +6,30 @@ type Graph struct {
 }
 
 func NewGraph(vertices int) *Graph {
-   return &Graph{
-      vertices: vertices,
-      adjList:  make(map[int][]int),
-   }
+	return &Graph{
+		vertices: vertices,
+		adjList:  make(map[int][]int),
+	}
 }
 
 func (g *Graph) AddEdge(source, dest int) {
-   g.adjList[source] = append(g.adjList[source], dest)
-   g.adjList[dest] = append(g.adjList[dest], source)
+	g.adjList[source] = append(g.adjList[source], dest)
 }
 
-func (g *Graph) DFSUtil(vertex int, visited map[int]bool) {
-   visited[vertex] = true
-   fmt.Printf("%d ", vertex)
-
-   for _, v := range g.adjList[vertex] {
-      if !visited[v] {
-         g.DFSUtil(v, visited)
-      }
-   }
+func (g *Graph) DFSUtil(vertex int, visited map[int]bool, edges []int) []int {
+	visited[vertex] = true
+	edges = append(edges, vertex)
+	for _, v := range g.adjList[vertex] {
+		if !visited[v] {
+			edges = g.DFSUtil(v, visited, edges)
+		}
+	}
+	return edges
 }
 
-func (g *Graph) DFS(startVertex int) {
-   visited := make(map[int]bool)
-   g.DFSUtil(startVertex, visited)
-}
-
-func main() {
-   g := NewGraph(5)
-   g.AddEdge(0, 1)
-   g.AddEdge(0, 2)
-   g.AddEdge(1, 3)
-   g.AddEdge(1, 4)
-   g.AddEdge(3, 5)
-
-   fmt.Println("Depth-first traversal starting from vertex 0:")
-   g.DFS(0)
+func (g *Graph) DFS(startVertex int) []int{
+	visited := make(map[int]bool)
+	edges :=  make([]int, 0)
+	edges = g.DFSUtil(startVertex, visited, edges)
+	return edges
 }
