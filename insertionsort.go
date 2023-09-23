@@ -1,4 +1,4 @@
-package datastructures
+package main
 
 func insertionSort(arr []int) {
 	for i := 1; i < len(arr); i++ {

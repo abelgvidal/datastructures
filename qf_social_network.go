@@ -27,7 +27,9 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	// Read the file line by line
+	lineNum := 0
 	for scanner.Scan() {
+		lineNum = lineNum + 1
 		line := scanner.Text()
 		parts := strings.Split(line, ", ")
 		if len(parts) != 3 {
@@ -37,15 +39,33 @@ func main() {
 
 		// Extract the three variables
 		timestamp := parts[0]
-		fmt.Println("line:", line, parts[1])
+		fmt.Println("****************************")
+		fmt.Println(lineNum, "Line:", line)
 		integer1, err := strconv.Atoi(parts[1])
 		if err != nil { panic(err) }
 		integer2, err := strconv.Atoi(parts[2])
 		if err != nil { panic(err) }
 
 		// Process the line or print it
-		fmt.Println(timestamp, integer1, integer2)
 		unionfind.QUWCUnion(integer1, integer2)
+
+		lastNode := -1
+		for x:=0; x<len(unionfind.QUWCelements); x++ {
+			thisNode := unionfind.QUWCRoot(unionfind.QUWCelements[x])
+			fmt.Println("elemento", x, "raiz es", thisNode)
+			if lastNode == -1 {
+				lastNode = thisNode
+				continue
+			} else {
+				if thisNode != lastNode {
+					break
+				}
+			}
+			if x == len(unionfind.QUWCelements)-1 {
+				fmt.Println(x, "All the nodes connected!", timestamp)
+				return
+			}
+		}
 
 	}
 

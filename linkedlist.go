@@ -1,4 +1,4 @@
-package datastructures
+package main
 
 import "fmt"
 
@@ -100,29 +100,4 @@ func (ll *LinkedList) DeleteValue(data int) {
 		}
 		current = current.Next
 	}
-}
-
-func main() {
-	list := &LinkedList{}
-
-	list.Append(1)
-	list.Append(2)
-	list.Append(3)
-	list.Append(4)
-	list.Append(5)
-
-	fmt.Println("Original linked list:")
-	list.Display()
-
-	list.DeleteValue(3)
-	fmt.Println("Linked list after deleting value 3 from list:")
-	list.Display()
-
-	list.Update(2, 12)
-	fmt.Println("Linked list after updating element 3 with value 12:")
-	list.Display()
-
-	list.DeleteNode(2)
-	fmt.Println("removing node 2")
-	list.Display()
 }
